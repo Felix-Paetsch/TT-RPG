@@ -1,4 +1,4 @@
-class Option:
+class IfExists:
     def __init__(self, thing):
         self.value = thing # Dict || None
 
