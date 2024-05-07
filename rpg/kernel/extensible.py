@@ -31,14 +31,21 @@ class Extensible:
         pass
 
     def initialize(self):
-        self.initialize_self()
+        # A bit redundant stuff, maybe write prettier later
         self.preloaded_plugins.sort(key=lambda x: x[1])
-        for (plugin, _) in self.preloaded_plugins:
-            plugin.initialize_self()
+        for (plugin, pos) in self.preloaded_plugins:
+            if pos < 0:
+                plugin.initialize_self()
 
-    def plugin(self, plugin, position = 0):
-        self.preloaded_plugins.append((plugin, position))
-        plugin.extends_on(self)
+        self.initialize_self()
+        
+        for (plugin, pos) in self.preloaded_plugins:
+            if pos >= 0:
+                plugin.initialize_self()
+
+    def plugin(self, plugin_instance, position = 0):
+        self.preloaded_plugins.append((plugin_instance, position))
+        plugin_instance.extends_on(self)
         return self
 
     def if_plugin(self, plugin_name, _):
